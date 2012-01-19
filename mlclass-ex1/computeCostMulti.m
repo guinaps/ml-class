@@ -13,9 +13,9 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
-
-
-
+% same logic as univariate case, but this should be slightly more efficient
+errors = X * theta - y;
+J = errors' * errors / (2*m);
 
 % =========================================================================
 
