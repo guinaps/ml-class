@@ -62,19 +62,15 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% unrolled binary vector containing examples' membership to each class
+yc = eye(num_labels)(y,:)(:);
+
 % feedforward
 a2 = sigmoid([ones(m, 1) X] * Theta1');
-h = sigmoid([ones(size(a2, 1), 1) a2] * Theta2');
+h = sigmoid([ones(size(a2, 1), 1) a2] * Theta2')(:);   % unrolled
 
-% computing cost
-for c = 1:num_labels
-    % encoding y into a binary vector denoting membership to a given class
-    yc = (y == c);
-    hc = h(:,c);
-    J -= yc' * log(hc) + (1 - yc)' * log(1 - hc);
-end
-
-J /= m;
+% cost function
+J = - (yc' * log(h) + (1-yc)' * log(1-h)) / m;
 
 % adding regularization to cost function
 Theta1_reg = [zeros(size(Theta1, 1), 1) Theta1(:,2:end)];
