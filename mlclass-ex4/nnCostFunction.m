@@ -62,10 +62,17 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+a2 = sigmoid([ones(m, 1) X] * Theta1');
+h = sigmoid([ones(size(a2, 1), 1) a2] * Theta2');
 
+for c = 1:num_labels
+    % encoding y into a binary vector denoting membership to a given class
+    yc = (y == c);
+    hc = h(:,c);
+    J -= yc' * log(hc) + (1 - yc)' * log(1 - hc);
+end
 
-
-
+J /= m;
 
 
 
