@@ -62,9 +62,11 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% feedforward
 a2 = sigmoid([ones(m, 1) X] * Theta1');
 h = sigmoid([ones(size(a2, 1), 1) a2] * Theta2');
 
+% computing cost
 for c = 1:num_labels
     % encoding y into a binary vector denoting membership to a given class
     yc = (y == c);
@@ -74,18 +76,12 @@ end
 
 J /= m;
 
+% adding regularization to cost function
+Theta1_reg = [zeros(size(Theta1, 1), 1) Theta1(:,2:end)];
+Theta2_reg = [zeros(size(Theta2, 1), 1) Theta2(:,2:end)];
+nn_params_reg = [Theta1_reg(:); Theta2_reg(:)];
 
-
-
-
-
-
-
-
-
-
-
-
+J += lambda / (2*m) * nn_params_reg' * nn_params_reg;
 
 % -------------------------------------------------------------
 
