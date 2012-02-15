@@ -69,7 +69,7 @@ yc_vec = yc(:);
 % feedforward
 z2 = [ones(m, 1) X] * Theta1';
 a2 = sigmoid(z2);
-z3 = [ones(size(a2, 1), 1) a2] * Theta2';
+z3 = [ones(m, 1) a2] * Theta2';
 a3 = sigmoid(z3);
 h_vec = a3(:);
 
@@ -87,7 +87,7 @@ J += lambda / (2*m) * nn_params_reg' * nn_params_reg;
 
 % backpropagation
 delta3 = a3 - yc;
-delta2 = (delta3 * Theta2) .* [ones(size(z2, 1), 1) sigmoidGradient(z2)];
+delta2 = (delta3 * Theta2) .* [ones(m, 1) sigmoidGradient(z2)];
 
 for t = 1:m
     Theta1_grad += delta2(t,2:end)' * [1 X(t,:)];
