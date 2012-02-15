@@ -63,14 +63,18 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 % unrolled binary vector containing examples' membership to each class
-yc = eye(num_labels)(y,:)(:);
+yc = eye(num_labels)(y,:);
+yc_vec = yc(:);
 
 % feedforward
-a2 = sigmoid([ones(m, 1) X] * Theta1');
-h = sigmoid([ones(size(a2, 1), 1) a2] * Theta2')(:);   % unrolled
+z2 = [ones(m, 1) X] * Theta1';
+a2 = sigmoid(z2);
+z3 = [ones(size(a2, 1), 1) a2] * Theta2';
+a3 = sigmoid(z3);
+h_vec = a3(:);
 
 % cost function
-J = - (yc' * log(h) + (1-yc)' * log(1-h)) / m;
+J = - (yc_vec' * log(h_vec) + (1-yc_vec)' * log(1-h_vec)) / m;
 
 % adding regularization to cost function
 Theta1_reg = [zeros(size(Theta1, 1), 1) Theta1(:,2:end)];
@@ -80,6 +84,18 @@ nn_params_reg = [Theta1_reg(:); Theta2_reg(:)];
 J += lambda / (2*m) * nn_params_reg' * nn_params_reg;
 
 % -------------------------------------------------------------
+
+% backpropagation
+delta3 = a3 - yc;
+delta2 = (delta3 * Theta2) .* [ones(size(z2, 1), 1) sigmoidGradient(z2)];
+
+for t = 1:m
+    Theta1_grad += delta2(t,2:end)' * [1 X(t,:)];
+    Theta2_grad += delta3(t,:)' * [1 a2(t,:)];
+end
+
+Theta1_grad /= m;
+Theta2_grad /= m;
 
 % =========================================================================
 
