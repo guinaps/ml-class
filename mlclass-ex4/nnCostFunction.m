@@ -94,8 +94,8 @@ for t = 1:m
     Theta2_grad += delta3(t,:)' * [1 a2(t,:)];
 end
 
-Theta1_grad /= m;
-Theta2_grad /= m;
+Theta1_grad = (Theta1_grad + lambda * Theta1_reg) / m;
+Theta2_grad = (Theta2_grad + lambda * Theta2_reg) / m;
 
 % =========================================================================
 
