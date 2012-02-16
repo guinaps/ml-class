@@ -24,6 +24,7 @@ theta_reg(1) = 0;
 
 err = X * theta - y;
 J = (err' * err + lambda * theta_reg' * theta_reg) / (2*m);
+grad = (X' * err + lambda * theta_reg) / m;
 
 % =========================================================================
 
