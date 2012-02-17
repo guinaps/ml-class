@@ -226,3 +226,15 @@ fprintf('Test set cost (lambda = %f): %f\n', lambda, error_test);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
+%% ======== Part 10 (EXTRA): Learning Curve with Randomized Examples ==========
+
+[error_train, error_val] = ...
+    learningCurveRandomized(X_poly, y, X_poly_val, yval, lambda);
+plot(1:m, error_train, 1:m, error_val);
+
+title(sprintf('Polynomial Regression Learning Curve (lambda = %f)', lambda));
+xlabel('Number of training examples');
+ylabel('Error');
+axis([0 13 0 100]);
+legend('Train', 'Cross Validation');
