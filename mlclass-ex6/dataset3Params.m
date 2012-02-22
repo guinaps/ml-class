@@ -23,6 +23,31 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+min_error = 1;
+curr_C = 0.01;
+
+while curr_C < 30
+    curr_sigma = 0.01;
+
+    while curr_sigma < 30
+        model = svmTrain(X,
+                         y,
+                         curr_C,
+                         @(x1, x2) gaussianKernel(x1, x2, curr_sigma));
+        predictions = svmPredict(model, Xval);
+        err = mean(double(predictions != yval));
+
+        if err < min_error
+            min_error = err;
+            C = curr_C;
+            sigma = curr_sigma;
+        end
+
+        curr_sigma *= sqrt(10);
+    end
+
+    curr_C *= sqrt(10);
+end
 
 
 
