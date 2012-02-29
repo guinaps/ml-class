@@ -22,7 +22,10 @@ sigma2 = zeros(n, 1);
 %
 
 mu = mean(X);
+% independent features version
 sigma2 = var(X, 1);
+% multivariate gaussian version
+% sigma2 = X' * X / m;
 
 % =============================================================
 
