@@ -45,8 +45,8 @@ errors = (X * Theta' - Y) .* R;
 J = (errors(:)' * errors(:) / 2 +
     lambda / 2 * (X(:)' * X(:) + Theta(:)' * Theta(:)));
 
-X_grad = errors * Theta;
-Theta_grad = errors' * X;
+X_grad = errors * Theta + lambda * X;
+Theta_grad = errors' * X + lambda * Theta;
 
 % =============================================================
 
